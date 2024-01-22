@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculator</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                background-color: #2980b9;
+                transition: background-color 0.3s ease;
+            }
+
+            .calculator {
+                width: 300px;
+                background-color: #fff;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                overflow: hidden;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+            .output {
+                height: 60px;
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                padding: 0 10px;
+                font-size: 1.5em;
+                background-color: #eee;
+                color: #333;
+            }
+
+            .dark-mode .output {
+                background-color: #fff;
+                color: #333;
+            }
+
+            .buttons {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            button {
+                background-color: #333;
+                color: #fff;
+                border: none;
+                padding: 15px;
+                font-size: 1.2em;
+                cursor: pointer;
+                transition: background-color 0.3s ease;
+            }
+
+            button:hover {
+                background-color: #ddd;
+            }
+
+            .equal {
+                grid-column: span 4;
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                font-size: 1.5em;
+                padding: 10px;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+            .equal:hover {
+                background-color: #2980b9;
+            }
+
+            .light-mode {
+                background-color: #fff;
+            }
+
+            .dark-mode {
+                background-color: #44038e;
+                color: #fff;
+            }
+
+            .dark-mode-output {
+                color: #fff;
+            }
+
+            #toggleDarkMode {
+                grid-column: span 4;
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                font-size: 1em;
+                padding: 10px;
+                transition: background-color 0.3s ease, color 0.3s ease;
+            }
+
+            #toggleDarkMode:hover {
+                background-color: #2980b9;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="calculator">
+            <div class="output" id="output"></div>
+            <div class="buttons">
+                <button onclick="clearAll()">AC</button>
+                <button onclick="appendOperator('(')">(</button>
+                <button onclick="appendOperator(')')">)</button>
+                <button onclick="deleteLast()">DE</button>
+                <button onclick="appendOperator('/')">/</button>
+                <button onclick="appendCharacter('7')">7</button>
+                <button onclick="appendCharacter('8')">8</button>
+                <button onclick="appendCharacter('9')">9</button>
+                <button onclick="appendOperator('*')">*</button>
+                <button onclick="appendCharacter('4')">4</button>
+                <button onclick="appendCharacter('5')">5</button>
+                <button onclick="appendCharacter('6')">6</button>
+                <button onclick="appendOperator('-')">-</button>
+                <button onclick="appendCharacter('1')">1</button>
+                <button onclick="appendCharacter('2')">2</button>
+                <button onclick="appendCharacter('3')">3</button>
+                <button onclick="appendOperator('+')">+</button>
+                <button onclick="appendCharacter('00')">00</button>
+                <button onclick="appendCharacter('0')">0</button>
+                <button onclick="appendOperator('.')">.</button>
+                <button onclick="calculateResult()" class="equal">=</button>
+                <br><button id="toggleDarkMode" onclick="toggleDarkMode()">Toggle Dark Mode</button>
+            </div>
+        </div>
+        <script>
+            let currentInput = "";
+            let darkMode = false;
+
+            function appendCharacter(char) {
+                currentInput += char;
+                updateOutput();
+            }
+
+            function appendOperator(operator) {
+                currentInput += operator;
+                updateOutput();
+            }
+
+            function deleteLast() {
+                currentInput = currentInput.slice(0, -1);
+                updateOutput();
+            }
+
+            function clearAll() {
+                currentInput = "";
+                updateOutput();
+            }
+
+            function calculateResult() {
+                try {
+                    const result = eval(currentInput);
+                    currentInput = result.toString();
+                    updateOutput();
+                } catch (error) {
+                    currentInput = "Error";
+                    updateOutput();
+                }
+            }
+
+            function updateOutput() {
+                document.getElementById("output").textContent = currentInput;
+            }
+
+            function toggleDarkMode() {
+                const body = document.body;
+                darkMode = !darkMode;
+                body.classList.toggle("dark-mode", darkMode);
+                updateOutput();
+            }
+        </script>
+    </body>
+</html>
